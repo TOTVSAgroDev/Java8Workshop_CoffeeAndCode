@@ -22,4 +22,8 @@ public class TalhaoVO extends AbstractVO {
 	public boolean isSemAreaDisponivel() {
 		return area == null || area.compareTo(BigDecimal.ZERO) <= 0;
 	}
+	
+	public boolean possuiAreaDisponivel() {
+		return !isSemAreaDisponivel();
+	}
 }

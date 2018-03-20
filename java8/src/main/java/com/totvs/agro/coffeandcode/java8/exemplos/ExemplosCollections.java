@@ -7,7 +7,7 @@ import com.google.common.base.Function;
 import com.totvs.agro.coffeandcode.java8.dao.TalhaoDAO;
 import com.totvs.agro.coffeandcode.java8.model.TalhaoVO;
 
-public class ExemplosLambdaCollections {
+public class ExemplosCollections {
 
     static Function<TalhaoVO, Long> FUNCTION_ID_TALHAO_SEM_LAMBDA = new Function<TalhaoVO, Long>() {
         public Long apply(TalhaoVO upn3) {
@@ -21,7 +21,7 @@ public class ExemplosLambdaCollections {
     
     public static void insertTalhoesLambda(Collection<TalhaoVO> talhoes) {
     	TalhaoDAO talhaoDAO = new TalhaoDAO();
-    	//utilizando lambda
+    	//iteração utilizando lambda
     	talhoes.forEach(t -> talhaoDAO.insert(t));
     }
     

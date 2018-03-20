@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.totvs.agro.coffeandcode.java8.model.AplicacaoInsumoVO;
 import com.totvs.agro.coffeandcode.java8.model.TalhaoVO;
@@ -32,7 +33,10 @@ public class ExemplosStream {
 				.collect(Collectors.toMap(AplicacaoInsumoVO::getTalhao, AplicacaoInsumoVO::getAreaAplicada));
 	}
 	
-	public static BigDecimal getSomaAreasApontadasPorTalhao(Collection<AplicacaoInsumoVO> apontamentos, TalhaoVO talhao) {
+	public static BigDecimal getSomaAreasApontadasPorTalhao(
+			Collection<AplicacaoInsumoVO> apontamentos, 
+			TalhaoVO talhao) {
+		
 		return apontamentos.stream()
 				.filter(apontamento -> apontamento.getTalhao().equals(talhao))
 				.map(AplicacaoInsumoVO::getAreaAplicada)
@@ -43,6 +47,21 @@ public class ExemplosStream {
 	public static Map<LocalDate, List<AplicacaoInsumoVO>> agruparApontamentosPorData(Collection<AplicacaoInsumoVO> apontamentos) {
 		return apontamentos.stream()
 				.collect(Collectors.groupingBy(AplicacaoInsumoVO::getDataOperacao));
+	}
+	
+	public static Stream<AplicacaoInsumoVO> filtrarApontamentosPorTalhao(
+			Collection<AplicacaoInsumoVO> apontamentos, 
+			TalhaoVO talhao) {
+		
+		return apontamentos.stream()
+				.filter(apontamento -> apontamento.getTalhao().equals(talhao));
+	}
+	
+	public static Stream<AplicacaoInsumoVO> filtrarApontamentosPorTalhoesComAreaDisponivel(
+			Collection<AplicacaoInsumoVO> apontamentos) {
+		
+		return apontamentos.stream()
+				.filter(apontamento -> apontamento.getTalhao().possuiAreaDisponivel());
 	}
 	
 	public static Map<LocalDate, List<AplicacaoInsumoVO>> agruparApontamentosPorDataFiltrandoTalhao(Collection<AplicacaoInsumoVO> apontamentos, TalhaoVO talhao) {
@@ -68,4 +87,12 @@ public class ExemplosStream {
 				.orElse(0d);
 	}
 
+	public static List<TalhaoVO> getTalhoesApontamentosSemAreaDisponivel(Collection<AplicacaoInsumoVO> apontamentos) {
+		return apontamentos.stream()
+				.filter(apontamento -> apontamento.getTalhao().isSemAreaDisponivel())
+				.map(AplicacaoInsumoVO::getTalhao)
+				.distinct()
+				.collect(Collectors.toList());
+	}
+	
 }
